@@ -10,8 +10,8 @@ dnf install -y nginx > /dev/null 2>&1
 systemctl enable nginx
 systemctl start nginx
 
-# firewall-cmd --permanent --zone=public --add-service=http
-# firewall-cmd --reload
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --reload
 
 echo "NGINX service status:"
 systemctl status nginx

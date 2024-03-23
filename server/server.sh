@@ -5,11 +5,29 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-echo "Setting up server..."
+echo "Setting up needed things for the server..."
 echo
 
-echo "General configuration..."
-./config-general.sh
+echo "Updating the system..."
+dnf update -y
+
+echo;echo
+
+echo "Do you want to install MATE Desktop? (y/n)"
+read answer
+if [ "$answer" == "y" ] || [ "$answer" == "Y" ] ;then
+    echo "Installing MATE Desktop..."
+    dnf groupinstall -y "MATE Desktop"
+    systemctl set-default graphical.target
+else
+    echo "MATE Desktop will not be installed."
+fi
+
+echo;echo
+
+echo "Setting up server..."
+chmod +x ./*.sh
+echo
 
 echo "Setting up SSH..."
 ./config-sshd.sh
@@ -37,3 +55,19 @@ do
     ./create-client.sh "$username" "$fullname"
     ./config-site.sh "$username"
 done < ../clients.csv
+
+echo;echo
+
+echo "Setting up consolidating logs..."
+./unsuccessful_attempts.sh
+
+echo;echo
+
+echo "Do you want to reboot? (y/n)"
+read answer
+if [ "$answer" == "y" ] || [ "$answer" == "Y" ] ;then
+    reboot
+else
+    echo "Please reboot later."
+    exit 0
+fi
