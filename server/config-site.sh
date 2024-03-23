@@ -30,4 +30,6 @@ ln -sfn "$site_directory" "$nginx_html"
 chown -R nginx:nginx "$site_directory"
 chmod -R 755 "$site_directory"
 
+chmod o+rx "$user_home"
+
 echo "Website directory for user $username configured successfully."

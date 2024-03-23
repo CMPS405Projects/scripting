@@ -13,7 +13,7 @@ dnf update -y
 
 echo;echo
 
-echo "Do you want to install MATE Desktop? (y/n)"
+echo -n "Do you want to install MATE Desktop? (y/n) "
 read answer
 if [ "$answer" == "y" ] || [ "$answer" == "Y" ] ;then
     echo "Installing MATE Desktop..."
@@ -68,11 +68,4 @@ echo "Setting up consolidating logs..."
 
 echo;echo
 
-echo "Do you want to reboot? (y/n)"
-read answer
-if [ "$answer" == "y" ] || [ "$answer" == "Y" ] ;then
-    reboot
-else
-    echo "Please reboot later."
-    exit 0
-fi
+echo "Please reboot if major updates happened (e.g. installed MATE)."
