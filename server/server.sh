@@ -59,7 +59,7 @@ done < ../clients.csv
 echo;echo
 
 echo "Setting up consolidating logs..."
-./unsuccessful_attempts.sh
+./unsuccessful_attempts.sh &
 
 echo;echo
 
