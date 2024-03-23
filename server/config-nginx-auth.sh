@@ -6,15 +6,15 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 echo "Installing Apache Utils..."
-dnf install -y apache2-utils > /dev/null 2>&1
+dnf install -y apache2-utils > /dev/null
 
 echo "Creating .htpasswd file..."
 while IFS=, read -r username fullname
 do
-    htpasswd -c /etc/nginx/.htpasswd "$username"
+    htpasswd -c /etc/nginx/.htpasswd "$username" "$username"
 done < ../clients.csv
 
-cat << 'EOF' > /etc/nginx/conf.d/default.conf
+cat > /etc/nginx/conf.d/default.conf <<EOF
 server {
     listen 80;
     server_name localhost;
@@ -28,11 +28,21 @@ server {
 }
 EOF
 
-# Reload the NGINX service
+cat > /usr/share/nginx/html/index.html <<EOF
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CMPS405 Lab</title>
+</head>
+<body style="display:grid;place-items:center;">
+    <h1 style="font-size:5rem;">Welcome to Operating Systems Lab</h1>
+</body>
+</html>
+EOF
+
 systemctl restart nginx
 
 echo "NGINX service status:"
 systemctl status nginx
 
-# Test the configuration
 curl -I http://localhost

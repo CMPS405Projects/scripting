@@ -4,7 +4,8 @@ configure_ssh_server() {
     systemctl enable sshd
     systemctl start sshd
     
-    echo "AllowGroups clients" >> /etc/ssh/sshd_config
+    # check if the line exists in the file
+    grep -q "AllowGroups clients" /etc/ssh/sshd_config || echo "AllowGroups clients" >> /etc/ssh/sshd_config
     
     systemctl restart sshd
 }
@@ -20,7 +21,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 echo "Installing OpenSSH server..."
-dnf install -y openssh-server > /dev/null 2>&1
+dnf install -y openssh-server > /dev/null
 
 echo "Configuring OpenSSH server..."
 configure_ssh_server

@@ -18,7 +18,7 @@ tee /etc/firewalld/services/mosh.xml > /dev/null <<EOF
 </service>
 EOF
 
-firewall-cmd --reload
 firewall-cmd --permanent --add-service=mosh
+firewall-cmd --reload
 
 echo "Mosh configured successfully."

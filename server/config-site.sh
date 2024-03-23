@@ -5,12 +5,12 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-username="$1"
-
-if [ -z "$username" ]; then
-    echo "Error: Username argument is missing."
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <username>"
     exit 1
 fi
+
+username="$1"
 
 user_home="/home/$username"
 if [ ! -d "$user_home" ]; then
@@ -29,7 +29,5 @@ ln -sfn "$site_directory" "$nginx_html"
 
 chown -R nginx:nginx "$site_directory"
 chmod -R 755 "$site_directory"
-
-chmod o+rx "$user_home"
 
 echo "Website directory for user $username configured successfully."

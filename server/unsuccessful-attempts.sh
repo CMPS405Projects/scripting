@@ -5,9 +5,9 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-dnf install -y cronie > /dev/null 2>&1
-systemctl enable crond > /dev/null 2>&1
-systemctl start crond > /dev/null 2>&1
+dnf install -y cronie > /dev/null
+systemctl enable crond
+systemctl start crond
 
 mkdir -p "/home/server/log"
 
@@ -29,7 +29,6 @@ cleanup_logs() {
 
 schedule_cleanup() {
     (crontab -l ; echo "0 0 * * * /home/server/scripting/server/unsuccessful-attempts.sh") | crontab -
-    
 }
 
 consolidate_logs

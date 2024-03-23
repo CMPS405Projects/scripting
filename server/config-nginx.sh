@@ -5,7 +5,7 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-dnf install -y nginx > /dev/null 2>&1
+dnf install -y nginx > /dev/null
 
 systemctl enable nginx
 systemctl start nginx
