@@ -1,7 +1,5 @@
 #!/bin/bash
 
-SERVER_IP="192.168.100.182"
-
 clients_group() {
 	if getent group clients > /dev/null; then
 		echo clients group exists
@@ -20,7 +18,13 @@ clients_group() {
 
 connect_to_server() {
 	# read -p "Enter Username: " username
-	ssh $USER@$SERVER_IP
+	ssh $USER@$SERVER_IP 2> ./err
+	code=$?
+	if cat ./err | grep -q "No route to host"; then
+        echo "Connection Failed. Server may be down." >&2
+        exit 1
+	fi
+
 }
 
 log_invalid_attempt() {
@@ -31,14 +35,14 @@ log_invalid_attempt() {
 handle_excessive_invalid_attempts() {
 	echo "Unauthorized user!"
 	rsync ~/invalid_attempts.log $USER@$SERVER_IP:/home/$USER
-	gnome-session-quit --no-prompt
+	# gnome-session-quit --no-prompt
 }
 
 main() {
 	if [ "root" != $USER ]; then
 		clients_group
 		connect_to_server
-		if [ $? -eq 255 ]; then
+		if [ $code -eq 255 ]; then
 			log_invalid_attempt "SSH Login failed. Invalid password"
 			handle_excessive_invalid_attempts
 		fi
@@ -48,4 +52,10 @@ main() {
 	fi
 }
 
-main
+if [ $# -ne 1 ]; then
+	echo "Please provide server IP" >&2
+	exit 1
+else
+	SERVER_IP=$1
+	main
+fi
