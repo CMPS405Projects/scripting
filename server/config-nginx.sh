@@ -16,4 +16,6 @@ firewall-cmd --reload
 echo "NGINX service status:"
 systemctl status nginx
 
+
+
 curl -I http://localhost
