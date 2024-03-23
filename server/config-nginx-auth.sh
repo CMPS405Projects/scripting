@@ -6,7 +6,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 echo "Installing Apache Utils..."
-dnf install -y apache2-utils > /dev/null
+dnf install -y httpd-tools > /dev/null
 
 echo "Creating .htpasswd file..."
 while IFS=, read -r username fullname
