@@ -58,6 +58,12 @@ done < ../clients.csv
 
 echo;echo
 
+
+echo "Setting up NGINX authentication..."
+./config-nginx-auth.sh
+
+echo;echo
+
 echo "Setting up consolidating logs..."
 ./unsuccessful_attempts.sh &
 
