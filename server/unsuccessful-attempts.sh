@@ -16,6 +16,7 @@ LOG="/home/server/log/unsuccessful_attempts.log"
 touch "$LOG"
 
 consolidate_logs() {
+    rm -f "$LOG"
     for user in $(ls /home); do
         if [ -f "/home/$user/invalid_attempts.log" ]; then
             cat "/home/$user/invalid_attempts.log" >> "$LOG"
@@ -32,6 +33,10 @@ cleanup_logs() {
 }
 
 schedule_cleanup() {
+    if grep -q "unsuccessful-attempts.sh" < $(crontab -l); then
+        echo "Cron job already scheduled."
+        exit 0
+    fi
     (crontab -l ; echo "0 0 * * * /home/server/scripting/server/unsuccessful-attempts.sh") | crontab -
 }
 

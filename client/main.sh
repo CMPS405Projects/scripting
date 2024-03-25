@@ -35,7 +35,7 @@ log_invalid_attempt() {
 handle_excessive_invalid_attempts() {
 	echo "Unauthorized user!"
 	rsync ~/invalid_attempts.log $USER@$SERVER_IP:/home/$USER
-	# gnome-session-quit --no-prompt
+	gnome-session-quit --no-prompt
 }
 
 main() {
