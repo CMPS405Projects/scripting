@@ -25,7 +25,7 @@ if [ ! -d "$site_directory" ]; then
     mkdir -p "$site_directory"
 fi
 
-ln -sfn "$site_directory" "$nginx_html"
+ln -s "$site_directory" "$nginx_html"
 
 chown -R nginx:nginx "$site_directory"
 chmod -R 755 "$site_directory"

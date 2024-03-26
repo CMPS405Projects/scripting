@@ -9,18 +9,20 @@ echo "Setting up needed things for the server..."
 echo
 
 echo "Updating the system..."
-dnf update -y
+dnf update -y > /dev/null
 
 echo;echo
 
-echo -n "Do you want to install MATE Desktop? (y/n) "
-read answer
-if [ "$answer" == "y" ] || [ "$answer" == "Y" ] ;then
-    echo "Installing MATE Desktop..."
-    dnf groupinstall -y "MATE Desktop"
-    systemctl set-default graphical.target
-else
-    echo "MATE Desktop will not be installed."
+if [ -z "$(dnf grouplist | grep "MATE Desktop")" ]; then
+    echo -n "Do you want to install MATE Desktop? (y/n) "
+    read answer
+    if [ "$answer" == "y" ] || [ "$answer" == "Y" ] ;then
+        echo "Installing MATE Desktop..."
+        dnf groupinstall -y "MATE Desktop"
+        systemctl set-default graphical.target
+    else
+        echo "MATE Desktop will not be installed."
+    fi
 fi
 
 echo;echo
@@ -29,7 +31,7 @@ echo "Setting up server..."
 chmod +x ./*.sh
 echo
 
-echo "Setting up SSH..."
+echo "Setting up SSH Server..."
 ./config-sshd.sh
 
 echo;echo

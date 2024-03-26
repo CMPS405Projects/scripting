@@ -7,10 +7,13 @@ fi
 
 dnf install -y nginx > /dev/null
 
+echo "Enabling NGINX service: "
 systemctl enable nginx
 systemctl start nginx
 
+echo -n "Adding firewall rules: "
 firewall-cmd --permanent --zone=public --add-service=http
+echo -n "Reloading firewall: "
 firewall-cmd --reload
 
 echo "NGINX service status:"

@@ -13,9 +13,9 @@ mkdir -p "/home/server/log"
 
 LOG="/home/server/log/unsuccessful_attempts.log"
 
-touch "$LOG"
 
 consolidate_logs() {
+    echo "Consolidating logs."
     rm -f "$LOG"
     for user in $(ls /home); do
         if [ -f "/home/$user/invalid_attempts.log" ]; then
@@ -25,6 +25,7 @@ consolidate_logs() {
 }
 
 cleanup_logs() {
+    echo "Cleaning up logs older than 7 days."
     if [ $(find "$LOG" -type f -mtime +7) ];then
         rm -f "$LOG"
     else
@@ -37,6 +38,7 @@ schedule_cleanup() {
         echo "Cron job already scheduled."
         exit 0
     fi
+    echo "Scheduling cron job."
     (crontab -l ; echo "0 0 * * * /home/server/scripting/server/unsuccessful-attempts.sh") | crontab -
 }
 

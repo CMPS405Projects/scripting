@@ -11,7 +11,9 @@ configure_ssh_server() {
 }
 
 configure_firewall() {
+    echo -n "Adding firewall rules: "
     firewall-cmd --permanent --zone=public --add-service=ssh
+    echo -n "Relaoding firewall: "
     firewall-cmd --reload
 }
 
@@ -26,7 +28,6 @@ dnf install -y openssh-server > /dev/null
 echo "Configuring OpenSSH server..."
 configure_ssh_server
 
-echo "Adding firewall rules..."
 configure_firewall
 
 echo "SSH service status:"

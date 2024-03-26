@@ -5,8 +5,10 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-dnf install mosh -y
+echo "Installing Mobile Shell (Mosh)..."
+dnf install mosh -y > dev/null
 
+echo "Configuring Mosh..."
 tee /etc/firewalld/services/mosh.xml > /dev/null <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <service>
@@ -18,7 +20,9 @@ tee /etc/firewalld/services/mosh.xml > /dev/null <<EOF
 </service>
 EOF
 
+echo -n "Adding firewall rules: "
 firewall-cmd --permanent --add-service=mosh
+echo -n "Reloading firewall: "
 firewall-cmd --reload
 
 echo "Mosh configured successfully."
