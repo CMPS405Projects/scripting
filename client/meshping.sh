@@ -14,7 +14,7 @@ for ip in $@; do
 		traceroute $ip
 		if [ $? -ne 0 ]; then
 			log "Unable to traceroute $ip. Rebooting target machine..."
-			ssh reboot@$ip "echo reboot | sudo -S reboot"
+			reboot
 		fi
 	fi
 	log "Connectivity with $ip is ok"

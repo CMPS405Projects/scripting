@@ -45,5 +45,4 @@ systemctl restart nginx
 
 echo "NGINX service status:"
 systemctl status nginx
-
 curl -I http://localhost

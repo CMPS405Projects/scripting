@@ -5,6 +5,7 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+echo "Installing NGINX..."
 dnf install -y nginx > /dev/null
 
 echo "Enabling NGINX service: "
@@ -18,7 +19,4 @@ firewall-cmd --reload
 
 echo "NGINX service status:"
 systemctl status nginx
-
-
-
 curl -I http://localhost
